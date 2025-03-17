@@ -3,7 +3,7 @@
 
 The application allows users to track and analyze their health data, including Physical Activity, Sleep Activity, and Blood Tests.
 
-- [Home Assignment_ Building a Health Tracker API.pdf](#/Home%20Assignment_%20Building%20a%20Health%20Tracker%20API.pdf)
+- [Building a Health Tracker API.pdf](#/Home%20Assignment_%20Building%20a%20Health%20Tracker%20API.pdf)
 ------------------------------------------------------------
 
 ## Prerequisites
