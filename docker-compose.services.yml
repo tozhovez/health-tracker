@@ -1,0 +1,19 @@
+networks:
+  health:
+    name: health
+    driver: bridge
+
+services:
+  tracker:
+    container_name: tracker
+    hostname: tracker
+    build:
+      context: .
+      dockerfile: tracker/Dockerfile
+    ports:
+      - "0.0.0.0:6565:6565"
+    volumes:
+      - ${CONFIGS_STORAGE}/tracker/infra:/infra
+    networks:
+      - health
+    command: ["python", "main.py"]

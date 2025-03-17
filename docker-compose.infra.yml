@@ -1,0 +1,97 @@
+networks:
+  health:
+    name: health
+    driver: bridge
+    
+
+services:
+  postgresql:
+    container_name: postgres
+    hostname: postgres
+    image: timescale/timescaledb-ha:pg17
+    #postgres:latest
+    env_file:
+      - env.infra
+    environment:
+      POSTGRES_DB: ${POSTGRESDB}
+      POSTGRES_USER: ${POSTGRESUSER}
+      POSTGRES_PASSWORD: ${POSTGRESPASSWORD}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_DBPARAMS: "--lc-collate=C --template=template0 --lc-ctype=C" 
+    volumes:
+      - ${CONFIGS_STORAGE}/postgresql/initdb:/docker-entrypoint-initdb.d
+      #- ${CONFIGS_STORAGE}/postgresql/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+      - ${DATA_STORAGE}/postgresql/data:/var/lib/postgresql/data
+      - ${DATA_STORAGE}/postgresql/log:/var/log/postgresql
+    ports:
+      - "0.0.0.0:6432:5432"
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=50"
+      - "-c"
+      - "shared_buffers=2GB"
+      - "-c"
+      - "effective_cache_size=6GB"
+      - "-c"
+      - "work_mem=26214kB"
+      - "-c"
+      - "maintenance_work_mem=1GB"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "temp_file_limit=10GB"
+      - "-c"
+      - "log_min_duration_statement=200ms"
+      - "-c"
+      - "idle_in_transaction_session_timeout=10s"
+      - "-c"
+      - "lock_timeout=1s"
+      - "-c"
+      - "statement_timeout=60s"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements,timescaledb,pg_cron"
+      - "-c"
+      - "pg_stat_statements.max=10000"
+      - "-c"
+      - "pg_stat_statements.track=all"
+      - "-c"
+      - "cron.database_name=${POSTGRESDB}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESUSER} -d ${POSTGRESDB}"]
+      
+      
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+        reservations:
+          cpus: '0.50'
+          memory: 1G
+    logging:
+      options:
+        max-size: 10m
+    tty: true
+    stdin_open: true
+    networks:
+      - health
+
+  adminer:
+    container_name: adminer
+    hostname: adminer
+    image: adminer:latest
+    ports:
+      - "0.0.0.0:8383:8080"
+    logging:
+      options:
+        max-size: 10m
+    tty: true
+    stdin_open: true
+    networks:
+      - health
+
