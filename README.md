@@ -74,16 +74,16 @@ The health-tracker project leverages PostgreSQL with the TimescaleDB extension a
 - **TimescaleDB**: A time-series database built on PostgreSQL, optimized for handling time-series data efficiently. It provides powerful time-series capabilities such as continuous aggregates, data retention policies, and efficient querying.
 
 ### 2. Scalability
-TimescaleDB allows for horizontal scaling, which is crucial for handling large volumes of health data generated over time. This ensures the system can grow with the increasing amount of data without compromising performance.
+TimescaleDB allows for horizontal scaling, which is crucial for handling large volumes of data generated over time. This ensures the system can grow with the increasing amount of data without compromising performance.
 
 ### 3. Continuous Aggregates
-The use of continuous aggregates in TimescaleDB allows for real-time aggregation of data, which is essential for generating insights and reports on health metrics such as physical activity, sleep activity, and blood tests. This reduces the computational load and improves query performance.
+The use of continuous aggregates in TimescaleDB allows for real-time aggregation of data, which is essential for generating insights and reports. This reduces the computational load and improves query performance.
 
 ### 4. Data Retention Policies
 TimescaleDB supports data retention policies, enabling automatic data archiving and deletion based on predefined rules. This helps manage storage efficiently and ensures that only relevant data is retained.
 
 ### 5. Advanced SQL Features
-PostgreSQL offers advanced SQL features such as window functions, common table expressions (CTEs), and JSON support, which are beneficial for complex queries and data manipulation required in health-tracking applications.
+PostgreSQL offers advanced SQL features such as window functions, common table expressions (CTEs), and JSON support, which are beneficial for complex queries and data manipulation required in applications.
 
 ### 6. Integration with Docker
 The project uses Docker for infrastructure management, as seen in the docker-compose.infra.yml file. Docker ensures consistent environments across development, testing, and production, making it easier to manage dependencies and deployments.
